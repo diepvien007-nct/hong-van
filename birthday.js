@@ -221,7 +221,7 @@ let SPR = { crisp: [], soft: [] }, BOKEH = [], SPARKLE = null;
 // Load memory photos for tree canopy blossoms and slideshow (63 photos)
 const MEMORY_COUNT = 63;
 const MEMORY_URLS = Array.from({ length: MEMORY_COUNT }, (_, i) =>
-  `/memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
+  `./memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
 );
 
 let memorySprites = [];
