@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Gửi Hồng Vân ♥ — Chuyến Đi Của Ước Mơ</title>
+  <meta name="description" content="Món quà kỷ niệm và lời chúc yêu thương gửi tặng Hồng Vân lên đường bình an và thành công." />
+  <meta name="theme-color" content="#f7e7dc" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet" />
+
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="./birthday.css" />
+</head>
+<body>
+  <!-- THANH MENU HÀNH TRÌNH CHUYỂN CẢNH (Góc trên bên trái) -->
+  <nav class="timelineNav" id="timelineNav" aria-label="Mục lục hành trình">
+    <button class="timelineNav__toggle" id="timelineNavToggle" type="button" aria-expanded="false" aria-label="Mở danh mục hành trình">
+      <span class="timelineNav__toggleIcon">🧭</span>
+      <span class="timelineNav__toggleText">Hành Trình</span>
+      <span class="timelineNav__toggleArrow" id="timelineNavArrow">❯</span>
+    </button>
+
+    <div class="timelineNav__menu" id="timelineNavMenu">
+      <div class="timelineNav__header">
+        <span class="timelineNav__title">✨ Các Chặng Kỷ Niệm</span>
+      </div>
+      <ul class="timelineNav__list">
+        <li>
+          <button class="timelineNav__item" id="navStep1" data-step="1" type="button">
+            <span class="timelineNav__itemIcon">🏹</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">1. Bắn Cung Mở Màn</span>
+              <span class="timelineNav__itemDesc">Mũi tên tình bạn nock cung</span>
+            </div>
+          </button>
+        </li>
+        <li>
+          <button class="timelineNav__item" id="navStep2" data-step="2" type="button">
+            <span class="timelineNav__itemIcon">🌸</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">2. Chữ Nghệ Thuật</span>
+              <span class="timelineNav__itemDesc">Lời chúc Hồng Vân tỏa sáng</span>
+            </div>
+          </button>
+        </li>
+        <li>
+          <button class="timelineNav__item" id="navStep3" data-step="3" type="button">
+            <span class="timelineNav__itemIcon">🌳</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">3. Cây Tình Yêu & Thư</span>
+              <span class="timelineNav__itemDesc">Bức thư và cây hoa trái tim</span>
+            </div>
+          </button>
+        </li>
+        <li>
+          <button class="timelineNav__item" id="navStep4" data-step="4" type="button">
+            <span class="timelineNav__itemIcon">🎞️</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">4. Thước Phim Scrapbook</span>
+              <span class="timelineNav__itemDesc">63 bức ảnh kỷ niệm thanh xuân</span>
+            </div>
+          </button>
+        </li>
+        <li>
+          <button class="timelineNav__item" id="navStep5" data-step="5" type="button">
+            <span class="timelineNav__itemIcon">🌐</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">5. Quả Cầu 360°</span>
+              <span class="timelineNav__itemDesc">Không gian 3D bọc kín ảnh</span>
+            </div>
+          </button>
+        </li>
+        <li>
+          <button class="timelineNav__item" id="navStep6" data-step="6" type="button">
+            <span class="timelineNav__itemIcon">🌌</span>
+            <div class="timelineNav__itemInfo">
+              <span class="timelineNav__itemTitle">6. Tinh Cầu Vũ Trụ</span>
+              <span class="timelineNav__itemDesc">Ngân hà & Vòng chữ tinh cầu</span>
+            </div>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Nút Bật/Tắt Nhạc Nền (Góc trên bên phải) -->
+  <button class="music-btn" id="musicToggleBtn" type="button" aria-label="Bật/Tắt nhạc">
+    <span class="music-icon" id="musicIcon">🎵</span>
+    <span id="musicText">Phát Nhạc</span>
+  </button>
+
+  <main class="scene">
+
+    <!-- The tree world (Act 4). One canvas; it stays transparent until the
+         intro hands off, then it draws its own warm sky + blossom tree. -->
+    <canvas id="tree" class="tree" aria-label="A blossom tree grows and blooms into a heart made of petals" role="img"></canvas>
+
+    <!-- ACT 1 — THE INVITATION ------------------------------------------------
+         A single beating heart on a warm field. It is the only thing the
+         visitor has to do: tap it. Real <button> so it is tappable + keyboard
+         focusable; everything decorative around it is aria-hidden. -->
+    <section class="hero" id="hero" aria-label="Draw the bow to open your card">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__motes" id="motes" aria-hidden="true"></div>
+
+      <p class="hero__eyebrow" id="eyebrow">Nguyễn Thị Hồng Vân</p>
+
+      <!-- THE TARGET — the heart the arrow flies to (GSAP animates .target) -->
+      <div class="targetWrap" aria-hidden="true">
+        <div class="target" id="target">
+          <span class="heart__glow" aria-hidden="true"></span>
+          <span class="target__heart" id="targetHeart">
+            <svg class="heart__svg" viewBox="0 0 100 92" aria-hidden="true">
+              <defs>
+                <clipPath id="heartClip">
+                  <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" />
+                </clipPath>
+                <radialGradient id="hg" cx="38%" cy="30%" r="80%">
+                  <stop offset="0%"  stop-color="#ffd9e4" />
+                  <stop offset="42%" stop-color="#ff6f97" />
+                  <stop offset="82%" stop-color="#d81e57" />
+                  <stop offset="100%" stop-color="#9d0f3e" />
+                </radialGradient>
+                <linearGradient id="hsheen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"  stop-color="rgba(255,255,255,.85)" />
+                  <stop offset="34%" stop-color="rgba(255,255,255,0)" />
+                </linearGradient>
+              </defs>
+              <!-- Lớp nền trái tim màu hồng -->
+              <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="url(#hg)" />
+              
+              <!-- Ảnh bạn nữ được cắt lọt lòng và căn giữa hoàn hảo theo hình trái tim -->
+              <g clip-path="url(#heartClip)">
+                <image id="heartPhoto" href="/avatar.jpg" x="0" y="0" width="100" height="92" preserveAspectRatio="xMidYMid slice" />
+                <rect x="0" y="0" width="100" height="100" fill="url(#hg)" opacity="0.10" style="mix-blend-mode: soft-light;" />
+              </g>
+
+              <!-- Viền và lớp phủ bóng sáng 3D -->
+              <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="url(#hsheen)" opacity=".5" />
+              <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+              <ellipse cx="34" cy="30" rx="8.5" ry="5.4" fill="#fff" opacity=".72" style="mix-blend-mode:screen" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- THE BOW + ARROW — draw the string back, release to fire. The rig is
+           placed lower-left and rotated by JS to aim at the heart, so the shot
+           travels on a diagonal. A real control: role=button + keyboard drag. -->
+      <div class="archery" id="archery" role="button" tabindex="0"
+           aria-label="Draw the bow and release to send the arrow to the heart">
+
+          <!-- aim line, inside the rig so it points straight at the heart -->
+          <div class="aim" id="aim" aria-hidden="true"></div>
+
+          <!-- realistic recurve bow: wooden limbs, leather grip, a live string -->
+          <svg class="bow" id="bow" viewBox="0 0 460 300" aria-hidden="true">
+            <defs>
+              <linearGradient id="limb" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"   stop-color="#4a2a1a" />
+                <stop offset=".18" stop-color="#6b3f24" />
+                <stop offset=".5"  stop-color="#8a5127" />
+                <stop offset=".82" stop-color="#6b3f24" />
+                <stop offset="1"   stop-color="#4a2a1a" />
+              </linearGradient>
+              <linearGradient id="limbHi" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="rgba(255,214,160,.8)" />
+                <stop offset="1" stop-color="rgba(255,214,160,0)" />
+              </linearGradient>
+              <linearGradient id="grip" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#2a1a10" />
+                <stop offset=".5" stop-color="#5a3822" />
+                <stop offset="1" stop-color="#2a1a10" />
+              </linearGradient>
+            </defs>
+            <!-- limb body (taper faked with two stacked strokes) -->
+            <path class="bow__limb" d="M34 96 C 118 168, 168 240, 230 252 C 292 240, 342 168, 426 96"
+                  fill="none" stroke="url(#limb)" stroke-width="13" stroke-linecap="round" />
+            <path class="bow__limbHi" d="M34 96 C 118 168, 168 240, 230 252 C 292 240, 342 168, 426 96"
+                  fill="none" stroke="url(#limbHi)" stroke-width="3" stroke-linecap="round" opacity=".7" />
+            <!-- recurve tip hooks -->
+            <path d="M34 96 C 22 82, 26 70, 40 66" fill="none" stroke="url(#limb)" stroke-width="8" stroke-linecap="round" />
+            <path d="M426 96 C 438 82, 434 70, 420 66" fill="none" stroke="url(#limb)" stroke-width="8" stroke-linecap="round" />
+            <!-- leather grip over the belly -->
+            <rect x="216" y="206" width="28" height="70" rx="9" fill="url(#grip)" />
+            <path d="M219 220h22 M219 236h22 M219 252h22" stroke="rgba(0,0,0,.35)" stroke-width="2" />
+            <!-- the string: two segments meeting at the nock (JS animates the nock).
+                 A warm taupe so the taut string actually reads against the cream. -->
+            <line class="bow__str" id="strL" x1="40" y1="70" x2="230" y2="96" stroke="#9a8068" stroke-width="2.2" stroke-linecap="round" />
+            <line class="bow__str" id="strR" x1="420" y1="70" x2="230" y2="96" stroke="#9a8068" stroke-width="2.2" stroke-linecap="round" />
+            <circle class="bow__serving" id="serving" cx="230" cy="96" r="4.5" fill="#6f5137" />
+          </svg>
+
+          <!-- the arrow: winged golden heart tip (Cupid), gold feather fletching -->
+          <svg class="arrow" id="arrow" viewBox="0 0 64 220" aria-hidden="true">
+            <defs>
+              <linearGradient id="shaft" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#4a2c14" />
+                <stop offset=".5" stop-color="#8a5a2c" />
+                <stop offset="1" stop-color="#3e2410" />
+              </linearGradient>
+              <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffe38c" />
+                <stop offset=".45" stop-color="#f4a626" />
+                <stop offset="1" stop-color="#a85f0e" />
+              </linearGradient>
+              <linearGradient id="feath" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ff7f9c" />
+                <stop offset=".5" stop-color="#e6396a" />
+                <stop offset="1" stop-color="#a8154a" />
+              </linearGradient>
+              <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset="1" stop-color="#ffe0c4" />
+              </linearGradient>
+            </defs>
+
+            <!-- shaft (dark wood so it reads against the cream) -->
+            <rect x="29.4" y="30" width="5.2" height="168" rx="2.6" fill="url(#shaft)" />
+
+            <!-- angel wings flanking the heart tip -->
+            <g class="arrow__wings">
+              <path class="wingL" d="M31 30 C 10 16, 2 20, 4 34 C 12 30, 20 32, 31 40 Z" fill="url(#wing)" stroke="rgba(196,132,58,.72)" stroke-width="1.2"/>
+              <path class="wingR" d="M33 30 C 54 16, 62 20, 60 34 C 52 30, 44 32, 33 40 Z" fill="url(#wing)" stroke="rgba(196,132,58,.72)" stroke-width="1.2"/>
+            </g>
+
+            <!-- golden heart arrowhead (Cupid's love arrow) -->
+            <path class="arrow__head" d="M32 12 C 30 7, 22 6.5, 21.5 13 C 21 18, 27 22, 32 27 C 37 22, 43 18, 42.5 13 C 42 6.5, 34 7, 32 12 Z" fill="url(#gold)" stroke="#a5701a" stroke-width=".8" />
+            <ellipse cx="27" cy="13" rx="2.6" ry="1.7" fill="#fff" opacity=".8" style="mix-blend-mode:screen" />
+
+            <!-- gold feather fletching -->
+            <g class="arrow__fletch">
+              <path d="M32 150 C 16 156, 10 178, 15 200 C 24 194, 30 184, 32 176 Z" fill="url(#feath)" />
+              <path d="M32 150 C 48 156, 54 178, 49 200 C 40 194, 34 184, 32 176 Z" fill="url(#feath)" opacity=".92" />
+              <path d="M28 160l4 3 M26 170l6 3 M25 180l7 3" stroke="rgba(130,12,48,.45)" stroke-width="1" />
+              <path d="M36 160l-4 3 M38 170l-6 3 M39 180l-7 3" stroke="rgba(130,12,48,.45)" stroke-width="1" />
+            </g>
+            <!-- nock -->
+            <path d="M29 200 L32 205 L35 200" fill="none" stroke="#c9a25a" stroke-width="2" stroke-linecap="round"/>
+            <!-- invisible tip marker: JS measures it to land the head on the heart -->
+            <circle id="tip" cx="32" cy="9" r="0.6" fill="none" />
+          </svg>
+      </div>
+
+      <p class="hero__hint" id="hint">Kéo nhẹ rồi thả tim nha ♥</p>
+    </section>
+
+    <!-- ACT 2 — THE FLOOD -----------------------------------------------------
+         The heart bursts into this circle at its landing point, and it swallows
+         the frame in rose. Same trick as the intro dot: no cross-fade anywhere,
+         the colour just arrives. -->
+    <div class="flood" id="flood" aria-hidden="true"></div>
+
+    <!-- ACT 3 — THE WISH (kinetic type on the flood) --------------------------
+         Lives inside the flood's own colour, revealed by it. Every glyph hinges
+         up out of its mask — nothing fades. -->
+    <div class="field" id="field" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+      <div class="fgrid" id="fgrid"></div>
+      <div class="fvignette"></div>
+      <div class="kParticles" id="kParticles"></div>
+
+      <div class="camera" id="camera">
+        <!-- Khung ảnh kỷ niệm bên trái (memory-01.jpg) -->
+        <div class="kSideCard kSideCard--left" id="kSideLeft">
+          <div class="kSideCard__inner">
+            <img src="/memories/memory-01.jpg" alt="Kỷ niệm ngày bên nhau" />
+            <span class="kSideCard__tag">🌸 Nhớ ghê á mầy</span>
+          </div>
+          <div class="kSideCard__glow"></div>
+        </div>
+
+        <!-- Nội dung chữ trung tâm -->
+        <div class="kCenterContent">
+          <p class="kEyebrow" id="kEyebrow">Gửi bạn nhá ✨</p>
+          <h2 class="headline" id="headline">
+            <span class="hl__line"><span class="mask"><span class="hl__word" id="wLine1">Hồng</span></span></span>
+            <span class="hl__line"><span class="mask"><span class="hl__word" id="wLine2">Vân</span></span></span>
+          </h2>
+          <svg class="uline" id="uline" viewBox="0 0 300 26" fill="none" aria-hidden="true">
+            <path class="uline__path" d="M8 16C56 7 132 4 178 6c30 1 78 5 114 12-40 3-108 4-176 3"
+                  stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <p class="kSub" id="kSub">Chúc cậu lên đường bình an, luôn rạng rỡ và gặt hái thật nhiều thành công nơi phương xa ♥</p>
+        </div>
+
+        <!-- Khung ảnh kỷ niệm bên phải (memory-63.jpg) -->
+        <div class="kSideCard kSideCard--right" id="kSideRight">
+          <div class="kSideCard__inner">
+            <img src="/memories/memory-63.jpg" alt="Kỷ niệm tốt nghiệp" />
+            <span class="kSideCard__tag">🎓 Ôi cũng mấy năm rồi nhỉ</span>
+          </div>
+          <div class="kSideCard__glow"></div>
+        </div>
+      </div>
+
+      <div class="bar bar--top" id="barTop"></div>
+      <div class="bar bar--bot" id="barBot"></div>
+    </div>
+
+    <!-- The gold light that bridges the rose wish into the dawn of the tree. -->
+    <div class="bloom" id="bloom" aria-hidden="true"></div>
+
+    <!-- ACT 4 — BỨC THƯ TÌNH BẠN GỬI HỒNG VÂN (over the tree) ------------------------ -->
+    <div class="wish letter" id="wish" aria-hidden="true">
+      <div class="letter__paper">
+        <div class="letter__header">
+          <p class="letter__to">Gửi Hồng Vân,</p>
+          <div class="letter__stamp">
+            <img src="/letter_stamp.jpg" alt="Kỷ niệm tốt nghiệp Hồng Vân" />
+            <span class="letter__postmark">✈️ 2026</span>
+          </div>
+        </div>
+        <div class="letter__body" id="letterBody">
+          <p>Chuyến bay sắp tới sẽ đưa cậu đến một miền đất mới, mở ra một hành trình mới với thật nhiều ước mơ và hoài bão.</p>
+          <p>Ở nơi xa ấy, dù có khác múi giờ, nhớ luôn ăn uống đầy đủ, giữ gìn sức khỏe và luôn cười thật rạng rỡ như lúc này nha cậu!</p>
+          <p>Dù có cách xa bao nhiêu cây số, tụi mình ở đây vẫn luôn dõi theo, ủng hộ và luôn là bến đỗ bình yên đón cậu trở về.</p>
+          <p class="letter__highlight">Chúc Hồng Vân lên đường bình an, học tập và làm việc thật thành công nhé! ♥</p>
+        </div>
+        <div class="letter__footer">
+          <span class="letter__sign">Mãi là những người bạn tốt nhất của nhau ✨</span>
+          <span class="letter__from">— Lũ báo</span>
+        </div>
+        <button class="letter__filmBtn" id="openFilmBtn" type="button">
+          <span class="film-icon">🫰</span> Đọc xong rồi thì ấn vào đây nhé !
+        </button>
+        <div class="letter__wax" aria-hidden="true">💌</div>
+      </div>
+    </div>
+
+
+
+    <!-- THƯỚC PHIM KỶ NIỆM MODAL (Nâng cấp Điện ảnh Scrapbook & Filmstrip) -->
+    <div class="filmModal" id="filmModal" aria-hidden="true" hidden>
+      <div class="filmModal__backdrop" id="filmBackdrop">
+        <!-- Ambilight Background Glow -->
+        <img id="filmAmbi" class="filmModal__ambi" src="/memories/memory-01.jpg" alt="" aria-hidden="true" />
+        <!-- Hiệu ứng dải ngân hà sao và chữ 3D bay liên tục (Loves background) -->
+        <canvas id="filmGalaxyCanvas" class="filmGalaxyCanvas"></canvas>
+        <div id="filmTextGalaxy" class="filmTextGalaxy"></div>
+      </div>
+
+      <!-- Container mưa tim tương tác -->
+      <div class="filmHeartShower" id="filmHeartShower"></div>
+      
+      <div class="filmModal__content">
+        <!-- Khung ảnh Vintage Scrapbook & 35mm Film Reel -->
+        <div class="filmFrame" id="filmFrame">
+          <!-- Băng dính Washi Tape & Tem máy bay -->
+          <div class="filmTape filmTape--tl" aria-hidden="true"></div>
+          <div class="filmTape filmTape--tr" aria-hidden="true"></div>
+          <div class="filmStamp" aria-hidden="true">✈️ 2026</div>
+
+          <!-- Lỗ bấm cuộn phim 35mm -->
+          <div class="filmReelPerfs filmReelPerfs--left" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="filmReelPerfs filmReelPerfs--right" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+
+          <!-- Khung ảnh chính với hiệu ứng Ken Burns -->
+          <div class="filmPhotoWrap" id="filmPhotoWrap" title="Nhấn vào ảnh để thả tim ✨">
+            <img id="filmImg" class="ken-burns-1" src="/memories/memory-01.jpg" alt="Kỷ niệm Hồng Vân" />
+          </div>
+
+          <div class="filmCaption">
+            <p class="filmCaption__tag" id="filmTag">🌸 Khoảnh khắc thanh xuân rực rỡ mở đầu thước phim của tụi mình</p>
+            <p class="filmCaption__index" id="filmIndex">1 / 63</p>
+          </div>
+        </div>
+
+        <!-- Bảng điều khiển: Trước, Phát/Tạm dừng, Tiếp theo, Sóng nhạc -->
+        <div class="filmControls">
+          <button class="filmCtrlBtn" id="filmPrev" aria-label="Ảnh trước" title="Ảnh trước">‹</button>
+          <button class="filmCtrlBtn filmCtrlBtn--play" id="filmPlayToggle" aria-label="Tạm dừng / Phát tiếp" title="Tạm dừng / Phát tiếp">⏸</button>
+          <button class="filmCtrlBtn" id="filmNext" aria-label="Ảnh tiếp theo" title="Ảnh tiếp theo">›</button>
+
+          <!-- Audio Waveform Visualizer -->
+          <div class="filmAudioViz" id="filmAudioViz" title="Giai điệu thanh xuân">
+            <span class="vbar"></span>
+            <span class="vbar"></span>
+            <span class="vbar"></span>
+            <span class="vbar"></span>
+            <span class="vbar"></span>
+          </div>
+        </div>
+
+        <div class="filmProgressBar">
+          <div class="filmProgressFill" id="filmProgressFill"></div>
+        </div>
+
+        <!-- Dải cuộn ảnh thu nhỏ (Thumbnail Filmstrip Navigator - Kéo qua lại mượt mà) -->
+        <div class="filmThumbSection">
+          <div class="filmThumbTrack" id="filmThumbTrack" title="Kéo qua lại để xem 63 ảnh kỷ niệm"></div>
+        </div>
+      </div>
+
+      <!-- MODAL PHÓNG TO ẢNH (Click vào ảnh để xem toàn cảnh & Tạm dừng) -->
+      <div class="filmZoomModal" id="filmZoomModal" hidden>
+        <div class="filmZoomBackdrop" id="filmZoomBackdrop"></div>
+        <div class="filmZoomContent">
+          <div class="filmZoomImgWrap">
+            <img id="filmZoomImg" src="" alt="Kỷ niệm phóng to" />
+          </div>
+          <p class="filmZoomCaption" id="filmZoomCaption"></p>
+          <button class="filmZoomClose" id="filmZoomClose" type="button" aria-label="Đóng phóng to">✕</button>
+        </div>
+      </div>
+
+      <!-- MÀN KẾT THÚC THƯỚC PHIM: PHÓNG TO ẢNH CUỐI + NÚT "ẤN ĐI CẬU" -->
+      <div class="filmEndCard" id="filmEndCard" hidden>
+        <div class="filmEndBackdrop" id="filmEndBackdrop"></div>
+        <div class="filmEndContent" id="filmEndContent">
+          <div class="filmEndPhotoWrap" id="filmEndPhotoWrap">
+            <img id="filmEndImg" src="/memories/memory-63.jpg" alt="Kỷ niệm tốt nghiệp Hồng Vân" />
+            <div class="filmTape filmTape--tl" aria-hidden="true"></div>
+            <div class="filmTape filmTape--tr" aria-hidden="true"></div>
+          </div>
+          <p class="filmEndText">🎓 Chúc Hồng Vân vạn dặm bình an, thành công rực rỡ trở về! ♥</p>
+          <button class="filmEndTriggerBtn" id="filmEndTriggerBtn" type="button">
+            <span class="btnSparkle">✨</span> Ấn tiếp đi cậu <span class="btnIcon">👉</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KHUNG HIỂN THỊ QUẢ CẦU ẢNH 3D (63 Ảnh Bọc Kín Toàn Cầu) -->
+      <div class="filmSphereView" id="filmSphereView" hidden>
+        <div id="sphereContainer" class="sphereContainer"></div>
+        <div class="sphereOverlay">
+          <p class="sphereHint" id="sphereHint">✨ Nhấn vào quả cầu để bước vào bên trong không gian 360°</p>
+          <div class="sphereActions">
+            <button class="sphereToggleBtn sphereToggleBtn--secondary" id="sphereBackToFilmBtn" type="button">
+              🎞️ Xem lại thước phim
+            </button>
+            <button class="sphereToggleBtn" id="sphereToCosmosBtn" type="button">
+              <span class="btnSparkle">✨</span> Vẫn còn á nha <span class="btnIcon">👉</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHUNG HIỂN THỊ TINH CẦU VŨ TRỤ 3D (Bản gốc từ folder vutru) -->
+      <div class="filmCosmosView" id="filmCosmosView" hidden>
+        <div id="cosmosContainer" class="cosmosContainer"></div>
+        <!-- Nút Again xem lại từ đầu ở màn kết Tinh Cầu Vũ Trụ -->
+        <button class="cosmosReplayBtn" id="cosmosReplayBtn" type="button" aria-label="Xem lại từ đầu" title="Xem lại toàn bộ từ đầu">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+            <path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" fill="currentColor" />
+          </svg>
+          Again
+        </button>
+      </div>
+
+      <button class="filmCloseBtn" id="filmClose" aria-label="Đóng thước phim" title="Trở về cây tình yêu">✕ Trở về</button>
+    </div>
+
+    <!-- Container hiệu ứng trái tim lấp lánh chạy theo chuột -->
+    <div id="cursorTrailContainer" class="cursorTrailContainer" aria-hidden="true"></div>
+
+    <!-- Audio player -->
+    <audio id="bgMusic" src="/music.mp3" loop preload="auto"></audio>
+
+    <!-- One lens over the whole film: vignette + fine grain. -->
+    <div class="grade" aria-hidden="true">
+      <div class="grade__vignette"></div>
+      <div class="grade__grain"></div>
+    </div>
+  </main>
+
+  <!-- Accessible equivalent for reduced-motion + screen readers. -->
+  <p class="sr-only">Happy Birthday. Here&rsquo;s to a wonderful year ahead.</p>
+
+  <script type="module" src="./birthday.js"></script>
+</body>
+</html>
