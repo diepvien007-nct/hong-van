@@ -1249,8 +1249,10 @@ function toggleMusic(){
 
 musicToggleBtn?.addEventListener('click', toggleMusic);
 
-// --- MEMORY FILM SLIDESHOW ---
-const MEMORIES = MEMORY_URLS;
+// --- MEMORY FILM SLIDESHOW (63 PHOTOS) ---
+const MEMORIES = Array.from({ length: 63 }, (_, i) =>
+  `./memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
+);
 
 const CAPTIONS = [
   "🌸 Khoảnh khắc thanh xuân rực rỡ mở đầu thước phim của tụi mình",
@@ -1878,7 +1880,7 @@ const COSMOS_RING_TEXTS = [
 
 // 10 bức ảnh kỷ niệm từ folder memories
 const COSMOS_HEART_IMAGES = Array.from({ length: 10 }, (_, i) =>
-  `/memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
+  `./memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
 );
 
 function createCosmosGlowMaterial(color, size = 128, opacity = 0.55) {
