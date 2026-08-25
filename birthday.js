@@ -1258,6 +1258,22 @@ function toggleMusic(){
 
 musicToggleBtn?.addEventListener('click', toggleMusic);
 
+// --- TỰ ĐỘNG MỞ KHÓA VÀ PHÁT NHẠC NGAY TỪ LẦN CHẠM ĐẦU TIÊN TRÊN MOBILE ---
+function unlockAudioOnFirstInteraction() {
+  const unlockEvents = ['touchstart', 'touchend', 'pointerdown', 'click'];
+  const handleFirstInteraction = () => {
+    if (bgMusic && bgMusic.paused) {
+      bgMusic.play().then(() => {
+        isMusicPlaying = true;
+        updateMusicUI();
+      }).catch(() => {});
+    }
+    unlockEvents.forEach(evt => document.removeEventListener(evt, handleFirstInteraction, true));
+  };
+  unlockEvents.forEach(evt => document.addEventListener(evt, handleFirstInteraction, { capture: true, once: true, passive: true }));
+}
+unlockAudioOnFirstInteraction();
+
 // --- MEMORY FILM SLIDESHOW (63 PHOTOS) ---
 const MEMORIES = Array.from({ length: 63 }, (_, i) =>
   `./memories/memory-${String(i + 1).padStart(2, '0')}.jpg`
