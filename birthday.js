@@ -247,7 +247,16 @@ function makeMemoryBlossom(img){
   c.save();
   heartShape(c, x, top, w, h);
   c.clip();
-  c.drawImage(img, x - w * 0.5, top, w, h);
+  const aspect = (img.naturalWidth || 1) / (img.naturalHeight || 1);
+  let dw = w, dh = h, dx = x - w * 0.5, dy = top;
+  if (aspect > 1) {
+    dw = h * aspect;
+    dx = x - dw * 0.5;
+  } else {
+    dh = w / aspect;
+    dy = top + (h - dh) * 0.5;
+  }
+  c.drawImage(img, dx, dy, dw, dh);
   c.fillStyle = 'rgba(255,100,150,0.12)';
   c.fillRect(0, 0, SS, SS);
   c.restore();
@@ -437,11 +446,11 @@ function buildScene(){
     const x = cx + u * rx, y = cy - v * ry;
     const d = clamp01(Math.hypot(u, v + 1) / 2.4);
     const t0 = T.bloomT0 + d * (T.bloomSpan * 0.82) + rand(0, T.bloomSpan * 0.18);
-    const soft = Math.random() < 0.35;
-    const isPhoto = !soft && memorySprites.length > 0 && (photoCount < targetPhotos || Math.random() < 0.45);
-    const photoIdx = photoCount % (memorySprites.length || 1);
+    const soft = Math.random() < 0.26;
+    const isPhoto = !soft && (photoCount < 63 || Math.random() < 0.65);
+    const photoIdx = photoCount % 63;
     if (isPhoto) photoCount++;
-    hearts.push({ x, y, idx: (Math.random() * BLOSSOM.length) | 0, soft, isPhoto, photoIdx, box: baseBox * (isPhoto ? rand(1.18, 1.42) : (soft ? rand(0.6, 0.85) : rand(0.78, 1.12))), rot: rand(-0.55, 0.55), sway: rand(0, 6.28), t0 });
+    hearts.push({ x, y, idx: (Math.random() * BLOSSOM.length) | 0, soft, isPhoto, photoIdx, box: baseBox * (isPhoto ? rand(1.15, 1.40) : (soft ? rand(0.6, 0.85) : rand(0.78, 1.12))), rot: rand(-0.55, 0.55), sway: rand(0, 6.28), t0 });
   }
   hearts.sort((a, b) => (a.soft === b.soft ? a.y - b.y : a.soft ? -1 : 1));
 }
